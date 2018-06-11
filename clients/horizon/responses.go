@@ -352,3 +352,17 @@ type Transaction struct {
 	ValidAfter      string    `json:"valid_after,omitempty"`
 	ValidBefore     string    `json:"valid_before,omitempty"`
 }
+
+type Operation struct {
+	ID          string `json:"id"`
+	PagingToken string `json:"paging_token"`
+	Type        string `json:"type"`
+	TypeI       int32  `json:"type_i"`
+	Links struct {
+		Effects      Link `json:"effects"`
+		Precedes     Link `json:"precedes"`
+		Self         Link `json:"self"`
+		Succeeds     Link `json:"suceeds"`
+		Transactions Link `json:"transaction"`
+	}
+}

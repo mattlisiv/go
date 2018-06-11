@@ -100,6 +100,7 @@ type ClientInterface interface {
 	StreamLedgers(ctx context.Context, cursor *Cursor, handler LedgerHandler) error
 	StreamPayments(ctx context.Context, accountID string, cursor *Cursor, handler PaymentHandler) error
 	StreamTransactions(ctx context.Context, accountID string, cursor *Cursor, handler TransactionHandler) error
+	StreamOperations(ctx context.Context, cursor *Cursor, handler OperationHandler) error
 	SubmitTransaction(txeBase64 string) (TransactionSuccess, error)
 }
 
@@ -124,6 +125,9 @@ type PaymentHandler func(Payment)
 
 // TransactionHandler is a function that is called when a new transaction is received
 type TransactionHandler func(Transaction)
+
+// OperationHandler is a function that is called when a new operation is received
+type OperationHandler func(Operation)
 
 // ensure that the horizon client can be used as a SequenceProvider
 var _ build.SequenceProvider = &Client{}

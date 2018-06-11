@@ -32,6 +32,26 @@ func ExampleClient_StreamLedgers() {
 	}
 }
 
+func ExampleClient_StreamOperations() {
+	client := DefaultPublicNetClient
+	cursor := Cursor("now")
+
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+		time.Sleep(60 * time.Second)
+		cancel()
+	}()
+
+	err := client.StreamOperations(ctx, &cursor, func(o Operation) {
+		fmt.Println(o.Type)
+	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 func ExampleClient_SubmitTransaction() {
 	client := DefaultPublicNetClient
 	transactionEnvelopeXdr := "AAAAABSxFjMo7qcQlJBlrZQypSqYsHA5hHaYxk5hFXwiehh6AAAAZAAIdakAAABZAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAFLEWMyjupxCUkGWtlDKlKpiwcDmEdpjGTmEVfCJ6GHoAAAAAAAAAAACYloAAAAAAAAAAASJ6GHoAAABAp0FnKOQ9lJPDXPTh/a91xoZ8BaznwLj59sdDGK94eGzCOk7oetw7Yw50yOSZg2mqXAST6Agc9Ao/f5T9gB+GCw=="
